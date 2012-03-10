@@ -1,0 +1,73 @@
+.TH HNTOOL 1 local
+.SH NAME
+HnTool \- Hardening tool for Unix.
+.SH SYNOPSIS
+.ll +8
+.B hntool
+.RB [ " \-ln " ]
+.SH DESCRIPTION
+.I hntool
+Hardening tool for Unixes. It scans the system and available software,
+to detect security.
+
+.SH OPTIONS
+.TP
+.B \-e EXCLUDE_LIST, --exclude=EXCLUDE_LIST
+don't run the tests specified by MODULES_LIST
+.TP
+.B \-l --list
+returns list of available rules
+.TP
+.B \--list_output_type
+list the avaliable output formats
+.TP
+.B \-m MODULES_LIST, --modules=MODULES_LIST
+run only the tests specified by MODULES_LIST
+.TP
+.B \-n --nocolors
+does not use colors on output
+.SH "UNDERSTANDING THE OUTPUT"
+.TP
+There are 5 types of results:
+.TP
+.B OK :
+  Means that the item checked is fine and that you do not need to worry
+.TP
+.B INFO:
+  Means that you should know the item status, but probably it is fine. A port
+  opened, for example.
+.TP
+.B LOW:
+  Means that a security problem was found, but it does not provides a high risk
+  for your system.
+.TP
+.B MEDIUM:
+  Things are getting worse and you should start to worry about these itens.
+.TP
+.B HIGH:
+  You have an important security hole/problem on your system and you
+  should fix it NOW or run and save your life.
+.SH "COPYRIGHT NOTICE"
+Copyright \(co 1998, 1999, 2001, 2002 Free Software Foundation, Inc.
+.br
+Copyright \(co 1992, 1993 Jean-loup Gailly
+.PP
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+.ig
+Permission is granted to process this file through troff and print the
+results, provided the printed document carries copying permission
+notice identical to this one except for the removal of this paragraph
+(this paragraph not being relevant to the printed manual).
+..
+.PP
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+.PP
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions,
+except that this permission notice may be stated in a translation approved
+by the Foundation.

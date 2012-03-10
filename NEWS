@@ -1,0 +1,43 @@
+HnTool (0.1.2)
+    - New modules:
+        proftpd
+        vsftpd
+
+    - Sorting the output when using -l option
+    - Add some statistics to html report
+    - Add a way to check if we should run the module
+    - Add more documentation in the code
+    - Add a option to run only specific modules
+    - Add a option to exclude specific modules when running HnTool
+    - Fix the output and rule list options
+    - Several new checks
+    - Bug fixes
+
+HnTool (0.1.1)
+    - Fixes on authentication module
+    - Fixes on PHP module
+    - Add colors to check's title
+    - Make root be required only when running the checks
+    - Fixes the version declaration (using __version__)
+    - Started to implement i18n support
+    - Several bug fixes
+
+HnTool (0.1)
+    - New modules:
+        apache
+        authentication
+        filesystems
+        php
+        ports
+        postgresql
+        remote
+        ssh
+        system-wide
+        util
+
+    - Outputs:
+        html
+        terminal
+
+    - Initial structure created
+    - Several bug fixes

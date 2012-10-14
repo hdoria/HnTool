@@ -26,7 +26,7 @@ from HnTool.modules.rule import Rule as MasterRule
 class Rule(MasterRule):
     def __init__(self, options):
         MasterRule.__init__(self, options)
-        self.short_name="ssh"
+        self.short_name="php"
         self.long_name="Checks security problems on php config file"
         self.type="config"
         self.required_files = ['/etc/php5/apache2/php.ini', '/etc/php5/cli/php.ini', '/etc/php.ini']

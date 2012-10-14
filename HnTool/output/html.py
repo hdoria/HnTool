@@ -54,6 +54,8 @@ class Format:
 
     def statistics_graphic(self, statistics):
         import matplotlib.pyplot as Matplot
+        import base64
+        import os # para remover o grafico gerado
         #Matplot.title('types of results')
         #Matplot.ylabel('occurrences')
         Matplot.grid(True)
@@ -74,9 +76,15 @@ class Format:
         
         width = 270
         height = 200
+        
+        image_file = open(graphic_name, 'r')
+        img_base64 = base64.b64encode(image_file.read())
+        image_file.close()
+        os.remove(graphic_name)
 
         # imagem redimensionada no html para preservar a qualidade
-        img_tag = '<img src="statistics.png" alt="statistics graphic" width={0} height={1}/>'.format(width, height)
+        img_tag = '<img src="data:image/png;base64,{0}" alt="statistics graphic" width="{1}" height="{2}" />'.format(img_base64, width, height)
+        #img_tag = '<img src="{0}" alt="statistics graphic" width="{1}" height="{2}" />'.format(graphic_name, width, height)
         return img_tag
 
     def output( self, report, conf ):
@@ -86,10 +94,10 @@ class Format:
         # "low" ( m['results'][1] ). The third ( m['results'][2] ) is for "warnings"
         # and the fourth one is "high" ( m['results'][3] ), The last one is for
         # info messages.
-        print '''<html>
+        print '''<!DOCTYPE html>\n<html>
         <head>
             <title>HnTool - A hardening tool for *nixes - Report</title>
-            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
             <style type="text/css">
 
@@ -143,6 +151,7 @@ class Format:
                 td {
                     color: #000;
                     padding: 5px;
+                    text-align: left;
                 }
 
                 .status-ok {

@@ -144,7 +144,7 @@ A sample HnTool module is like this (hntool/ssh.py): ::
                 else:
                     check_results['low'].append('SSH is using the default port')
 
-				return check_results
+        return check_results
 
 
 Mostly, the code is self-explanatory. The following are the list of the attributes and methods

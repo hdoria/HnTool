@@ -61,6 +61,7 @@ class Format:
         # info messages.
         print '''<html>
         <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
             <title>HnTool - A hardening tool for *nixes - Report</title>
 
             <style type="text/css">

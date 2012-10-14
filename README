@@ -111,7 +111,7 @@ Once your module is finalized, remember to add it to the appropriate array
 
 A sample HnTool module is like this (hntool/ssh.py): ::
 
-	import os
+    import os
     import HnTool.modules.util
     from HnTool.modules.rule import Rule as MasterRule
 

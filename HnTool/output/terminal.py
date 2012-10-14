@@ -57,6 +57,11 @@ class Format:
     Method to show the check results
     '''
     maxmsg_len = HnTool.modules.util.term_len() - 15
+    # verifica se é str, se for converte para unicode para garantir que 
+    # letras acentuadas nao serao consideradas de tamanho 2
+    # isso evita o erro de formatacao em strings acentuadas
+    if isinstance(msg, str):
+        msg = unicode(msg, 'utf-8')
     msg_splited = HnTool.modules.util.split_len( msg, maxmsg_len )
     result = ""
     i = 0

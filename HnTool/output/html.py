@@ -71,7 +71,6 @@ class Format:
         Matplot.bar(5, statistics['info'], width=bar_width, facecolor='lightblue', align='center')
 
         Matplot.xticks([1, 2, 3, 4, 5], ['OK', 'HIGH', 'MEDIUM', 'LOW', 'INFO'])
-        # Matplot.show()
         graphic_name = 'statistics.png'
         Matplot.savefig(graphic_name)
 

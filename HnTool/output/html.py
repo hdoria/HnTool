@@ -52,6 +52,33 @@ class Format:
                '<td>' + msg + '</td>' + \
                '</tr>'
 
+    def statistics_graphic(self, statistics):
+        import matplotlib.pyplot as Matplot
+        #Matplot.title('types of results')
+        #Matplot.ylabel('occurrences')
+        Matplot.grid(True)
+        Matplot.rcParams.update({'font.size': 18})
+        Matplot.rcParams.update({'font.weight': 'bold'})
+
+        bar_width = 0.6
+        Matplot.bar(1, statistics['ok'], width=bar_width, facecolor='lightgreen', align='center')
+        Matplot.bar(2, statistics['high'], width=bar_width, facecolor='red', align='center')
+        Matplot.bar(3, statistics['medium'], width=bar_width, facecolor='yellow', align='center')
+        Matplot.bar(4, statistics['low'], width=bar_width, facecolor='lightgray', align='center')
+        Matplot.bar(5, statistics['info'], width=bar_width, facecolor='lightblue', align='center')
+
+        Matplot.xticks([1, 2, 3, 4, 5], ['OK', 'HIGH', 'MEDIUM', 'LOW', 'INFO'])
+        Matplot.show()
+        graphic_name = 'statistics.png'
+        Matplot.savefig(graphic_name)
+        
+        width = 270
+        height = 200
+
+        # imagem redimensionada no html para preservar a qualidade
+        img_tag = '<img src="statistics.png" alt="statistics graphic" width={0} height={1}/>'.format(width, height)
+        return img_tag
+
     def output( self, report, conf ):
         self.conf = conf
         # Print all the results, from the 5 types of messages ( ok, low, medium, high and info ).
@@ -61,8 +88,8 @@ class Format:
         # info messages.
         print '''<html>
         <head>
-            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
             <title>HnTool - A hardening tool for *nixes - Report</title>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
             <style type="text/css">
 
@@ -197,9 +224,11 @@ class Format:
         print '    <li><strong>MEDIUM:</strong> ' + str(statistics['medium']) + '</li>'
         print '    <li><strong>LOW:</strong> ' + str(statistics['low']) + '</li>'
         print '    <li><strong>INFO:</strong> ' + str(statistics['info']) + '</li>'
+        print '                </ul>'
+        
+        print self.statistics_graphic(statistics)
 
         print '''
-                </ul>
             </div> <!-- closing the right div -->
         </div> <!-- closing the wrap div -->
         </body>

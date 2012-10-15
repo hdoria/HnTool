@@ -23,6 +23,7 @@
 import HnTool.modules
 import string
 
+
 class Format:
 
     description = "HTML output for a web browser"
@@ -30,7 +31,7 @@ class Format:
     def __init__(self, options):
         pass
 
-    def format_status( self, token ):
+    def format_status(self, token):
         if token == 'ok':
             return '<td class="status-ok">OK</td>'
         elif token == 'low':
@@ -43,25 +44,59 @@ class Format:
             return '<td class="status-info">INFO</td>'
 
     # Method to show the check results
-    def msg_status( self, msg, status ):
+    def msg_status(self, msg, status):
         '''
         Method to show the check results
         '''
         return '<tr>' + \
-               self.format_status( status ) + \
+               self.format_status(status) + \
                '<td>' + msg + '</td>' + \
                '</tr>'
 
-    def output( self, report, conf ):
+    def statistics_graphic(self, statistics):
+        import matplotlib.pyplot as Matplot
+        import base64
+        import os  # para remover o grafico gerado
+        # Matplot.title('types of results')
+        # Matplot.ylabel('occurrences')
+        Matplot.grid(True)
+        Matplot.rcParams.update({'font.size': 18})
+        Matplot.rcParams.update({'font.weight': 'bold'})
+
+        bar_width = 0.6
+        Matplot.bar(1, statistics['ok'], width=bar_width, facecolor='lightgreen', align='center')
+        Matplot.bar(2, statistics['high'], width=bar_width, facecolor='red', align='center')
+        Matplot.bar(3, statistics['medium'], width=bar_width, facecolor='yellow', align='center')
+        Matplot.bar(4, statistics['low'], width=bar_width, facecolor='lightgray', align='center')
+        Matplot.bar(5, statistics['info'], width=bar_width, facecolor='lightblue', align='center')
+
+        Matplot.xticks([1, 2, 3, 4, 5], ['OK', 'HIGH', 'MEDIUM', 'LOW', 'INFO'])
+        graphic_name = 'statistics.png'
+        Matplot.savefig(graphic_name)
+
+        width = 270
+        height = 200
+        image_file = open(graphic_name, 'r')
+        img_base64 = base64.b64encode(image_file.read())
+        image_file.close()
+        os.remove(graphic_name)
+
+        # imagem redimensionada no html para preservar a qualidade
+        img_tag = '<img src="data:image/png;base64,{0}" alt="statistics graphic" width="{1}" height="{2}" />'.format(img_base64, width, height)
+        #img_tag = '<img src="{0}" alt="statistics graphic" width="{1}" height="{2}" />'.format(graphic_name, width, height)
+        return img_tag
+
+    def output(self, report, conf):
         self.conf = conf
         # Print all the results, from the 5 types of messages ( ok, low, medium, high and info ).
         # First message is the "ok" one ( m['results'][0] ). The second one is
         # "low" ( m['results'][1] ). The third ( m['results'][2] ) is for "warnings"
         # and the fourth one is "high" ( m['results'][3] ), The last one is for
         # info messages.
-        print '''<html>
+        print '''<!DOCTYPE html>\n<html>
         <head>
             <title>HnTool - A hardening tool for *nixes - Report</title>
+            <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
             <style type="text/css">
 
@@ -115,6 +150,7 @@ class Format:
                 td {
                     color: #000;
                     padding: 5px;
+                    text-align: left;
                 }
 
                 .status-ok {
@@ -164,23 +200,23 @@ class Format:
             print '<tr><th colspan="2" align="left"><h2>' + m['title'] + '</h2></th></tr>'
             if m['results']['ok'] != []:
                 for result in m['results']['ok']:
-                    print self.msg_status( result, 'ok' )
+                    print self.msg_status(result, 'ok')
                     statistics['ok'] += 1
             if m['results']['low'] != []:
                 for result in m['results']['low']:
-                    print self.msg_status( result, 'low' )
+                    print self.msg_status(result, 'low')
                     statistics['low'] += 1
             if m['results']['medium'] != []:
                 for result in m['results']['medium']:
-                    print self.msg_status( result, 'medium' )
+                    print self.msg_status(result, 'medium')
                     statistics['medium'] += 1
             if m['results']['high'] != []:
                 for result in m['results']['high']:
-                    print self.msg_status( result, 'high' )
+                    print self.msg_status(result, 'high')
                     statistics['high'] += 1
             if m['results']['info'] != []:
                 for result in m['results']['info']:
-                    print self.msg_status( result, 'info' )
+                    print self.msg_status(result, 'info')
                     statistics['info'] += 1
 
         print '''
@@ -196,9 +232,11 @@ class Format:
         print '    <li><strong>MEDIUM:</strong> ' + str(statistics['medium']) + '</li>'
         print '    <li><strong>LOW:</strong> ' + str(statistics['low']) + '</li>'
         print '    <li><strong>INFO:</strong> ' + str(statistics['info']) + '</li>'
+        print '                </ul>'
+
+        print self.statistics_graphic(statistics)
 
         print '''
-                </ul>
             </div> <!-- closing the right div -->
         </div> <!-- closing the wrap div -->
         </body>

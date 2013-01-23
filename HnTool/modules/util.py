@@ -77,7 +77,7 @@ def requirements_met(pfile):
     are met (one or more files can be found on the system)'''
 
     for f in pfile:
-        if os.path.isfile(f):
-            return True
+        if not os.path.isfile(f):
+            return False
 
-    return False
+    return True

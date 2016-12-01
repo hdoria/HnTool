@@ -71,7 +71,7 @@ class Rule(MasterRule):
 
                 # Disconnects no successfully login after 30 seconds
                 if 'LoginGraceTime' in lines:
-                    if int(lines['LoginGrace']) >= 30:
+                    if int(lines['LoginGraceTime']) > 30:
                         check_results['low'].append('Keeping connection login attempt to more than 30 seconds')
                     else:
                         check_results['ok'].append('Disconnects no successfully login after 30 seconds')
@@ -80,7 +80,7 @@ class Rule(MasterRule):
 
                 # Disconnects session after more than 120 seconds of inactivity 
                 if 'ClientAliveInterval' in lines and int(lines['Protocol']) == 2:
-                    if int(lines['ClientAliveInterval']) >= 120:
+                    if int(lines['ClientAliveInterval']) > 120:
                         check_results['low'].append('Keeping inactive session')
                     else:
                         check_results['ok'].append('Disconnects session after more than 120 seconds of inactivity')
@@ -107,7 +107,7 @@ class Rule(MasterRule):
 
                 # Total number of open sessions
                 if 'MaxSessions' in lines:
-                    if int(lines['MaxSessions']) >= 4:
+                    if int(lines['MaxSessions']) > 5:
                         check_results['low'].append('High number of open sessions allowed')
                     else:
                         check_results['ok'].append('Good value of open sessions allowed')
@@ -125,7 +125,7 @@ class Rule(MasterRule):
 
                 # Specifies whether rhosts or shosts files should not be used in authentication
                 if 'IgnoreRhosts' in lines:
-                    if lines['IgnoreRhosts'] == 'yes':
+                    if lines['IgnoreRhosts'] == 'no':
                         check_results['high'].append('Using rhosts file')
                     else:
                         check_results['ok'].append('Not using rhosts file')

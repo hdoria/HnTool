@@ -28,7 +28,7 @@ class Rule(MasterRule):
         self.short_name="ssh"
         self.long_name="Checks security problems on sshd config file"
         self.type="config"
-        self.required_files = ['/etc/ssh/sshd_config', '/etc/sshd_config']
+        self.required_files = ['/etc/ssh/sshd_config']
 
     def requires(self):
         return self.required_files

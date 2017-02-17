@@ -72,6 +72,28 @@ def hntool_conf_parser(pfile):
     # and so on
     return result
 
+def hntool_conf_parser_equals(pfile):
+    '''This method parses a config file and returns a list with
+    all the lines that aren't comments or blank'''
+
+    result = {}
+
+    if os.path.isfile(pfile):
+        fp = open(pfile,'r') # reading the file
+        for line in fp:
+            # getting all the lines that aren't comments
+            if not line.startswith('#'):
+                line = line.split('=')
+                line[1] = line[1].rstrip()
+                if len(line) >= 2:
+                    result[line[0]] = line[1]
+        fp.close() #closing the file
+
+    # returns a list with all the lines
+    # [['option1', 'value1'], ['option2', 'value2']]
+    # and so on
+    return result
+
 def requirements_met(pfile):
     '''This method should check if all the requirements (files)
     are met (one or more files can be found on the system)'''
@@ -81,3 +103,4 @@ def requirements_met(pfile):
             return False
 
     return True
+

@@ -18,7 +18,7 @@
 #   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 #
 
-__files__ = ['authentication', 'filesystems', 'php', 'remote', 'system-wide']
+__files__ = ['authentication', 'filesystems', 'php', 'remote', 'system-wide', 'selinux']
 __services__ = ['apache', 'proftpd', 'ports', 'postgresql', 'ssh', 'vsftpd']
 
 __all__ = __files__ + __services__

@@ -29,6 +29,9 @@ class Rule(MasterRule):
         self.long_name="Checks SELinux configuration"
         self.type="config"
         self.required_files = ['/etc/selinux/config']
+        # TO DO: add try/except to get live config settings
+        # sestatus, checkpolicy
+        # Compare to configured settings
 
     def requires(self):
         return self.required_files

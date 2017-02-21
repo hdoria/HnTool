@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # HnTool rules - selinux
-# Copyright (C) 2009-2010 Hugo Doria <mail@hugodoria.org>
+# Copyright (C) 2017 Dan Persons <dpersonsdev@gmail.com>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ class Rule(MasterRule):
                 # dict with all the lines
                 lines = HnTool.modules.util.hntool_conf_parser_equals(selinux_conf)
                 
-                # Checking SELinux policy enforcement
+                # Checking SELinux policy enforcement config
                 if 'SELINUX' in lines:
                     if lines['SELINUX'] == 'enforcing':
                         check_results['ok'].append('SELinux is in enforcing mode')
@@ -58,7 +58,7 @@ class Rule(MasterRule):
                 else:
                     check_results['high'].append('SELinux policy enforcement not found')
 
-                # Checking SELinux policy type
+                # Checking SELinux policy type config
                 if 'SELINUXTYPE' in lines:
                     if lines['SELINUXTYPE'] == 'mls':
                         check_results['ok'].append('SELinux is using a multi-level security policy')
@@ -76,5 +76,7 @@ class Rule(MasterRule):
                         check_results['high'].append('SELinux policy type is unknown')
                 else:
                     check_results['high'].append('SELinux policy type not found')
+
+                # To Do: add check to make sure live env matches config
 
         return check_results

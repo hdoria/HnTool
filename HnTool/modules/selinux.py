@@ -91,6 +91,12 @@ class Rule(MasterRule):
                 # itemval = thing.split(':')[-1].rstrip()
                 checklive[itemname[0]] = itemval
 
+            if 'bash' in checklive:
+                if 'SELINUX' in lines:
+                    check_results['high'].append('SELinux: sestatus command not found')
+            if 'sestatus' in checklive:
+                if 'SELINUX' in lines:
+                    check_results['high'].append('SELinux: sestatus command not found')
 
             if 'SELinux status' in checklive:
                 if checklive['SELinux status'] == 'enabled':

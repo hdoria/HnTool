@@ -92,10 +92,10 @@ class Rule(MasterRule):
                 checklive[itemname[0]] = itemval
 
 
-            if 'SELinux status:' in checklive:
-                if item_list['SELinux Status'] == 'enabled':
+            if 'SELinux status' in checklive:
+                if checklive['SELinux status'] == 'enabled':
                         check_results['ok'].append('SELinux is enabled')
-                elif item_list[-1] == 'disabled' and \
+                elif checklive[-1] == 'disabled' and \
                         lines['SELINUX'] != 'disabled':
                     check_results['high'].append('SELinux is disabled but should be on')
                 else:

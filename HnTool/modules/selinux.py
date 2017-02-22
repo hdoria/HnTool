@@ -19,6 +19,8 @@
 #
 
 import os
+import re
+import shlex
 import HnTool.modules.util
 from HnTool.modules.rule import Rule as MasterRule
 
@@ -30,7 +32,7 @@ class Rule(MasterRule):
         self.type="config"
         self.required_files = ['/etc/selinux/config']
         # TO DO: add try/except to get live config settings
-        # sestatus, checkpolicy
+        # sestatus, checklive
         # Compare to configured settings
 
     def requires(self):
@@ -48,35 +50,79 @@ class Rule(MasterRule):
                 # Checking SELinux policy enforcement config
                 if 'SELINUX' in lines:
                     if lines['SELINUX'] == 'enforcing':
-                        check_results['ok'].append('SELinux is in enforcing mode')
+                        check_results['ok'].append('Configured in enforcing mode')
                     elif lines['SELINUX'] == 'permissive':
-                        check_results['med'].append('SELinux is in permissive mode')
+                        check_results['med'].append('Configured in permissive mode')
                     elif lines['SELINUX'] == 'disabled':
-                        check_results['high'].append('SELINUX is disabled')
+                        check_results['high'].append('Configured as disabled')
                     else:
-                        check_results['high'].append('SELinux policy enforcement is unknown')
+                        check_results['high'].append('Policy enforcement unknown')
                 else:
-                    check_results['high'].append('SELinux policy enforcement not found')
+                    check_results['high'].append('Policy enforcement not found')
 
                 # Checking SELinux policy type config
                 if 'SELINUXTYPE' in lines:
                     if lines['SELINUXTYPE'] == 'mls':
-                        check_results['ok'].append('SELinux is using a multi-level security policy')
+                        check_results['ok'].append('Configured using a multi-level security policy')
                     elif lines['SELINUXTYPE'] == 'mcs':
-                        check_results['ok'].append('SELinux is using a multi-category security policy')
+                        check_results['ok'].append('Configured using a multi-category security policy')
                     elif lines['SELINUXTYPE'] == 'strict':
-                        check_results['ok'].append('SELinux is using a strict security policy')
+                        check_results['ok'].append('Configured using a strict security policy')
                     elif lines['SELINUXTYPE'] == 'targeted':
-                        check_results['low'].append('SELinux is using a targeted policy')
+                        check_results['low'].append('Configured using a targeted policy')
                     elif lines['SELINUXTYPE'] == 'standard':
-                        check_results['med'].append('SELinux is using a standard policy')
+                        check_results['med'].append('Configured using a standard policy')
                     elif lines['SELINUXTYPE'] == 'minimum':
-                        check_results['high'].append('SELinux is using a minimum security policy')
+                        check_results['high'].append('Configured using a minimum security policy')
                     else:
                         check_results['high'].append('SELinux policy type is unknown')
                 else:
                     check_results['high'].append('SELinux policy type not found')
 
-                # To Do: add check to make sure live env matches config
+            # To Do: add check to make sure live env matches config
+            liveconfig = os.popen('sestatus').readlines()
+            optionformat = re.compile('(.*):')
+            checklive = {}
+
+            for item in liveconfig:
+                thing = item.rstrip()
+                itemname = re.findall(optionformat, thing)
+                itemval = shlex.split(thing)[-1]
+                # itemval = thing.split(':')[-1].rstrip()
+                checklive[itemname[0]] = itemval
+
+
+            if 'SELinux status:' in checklive:
+                if item_list['SELinux Status'] == 'enabled':
+                        check_results['ok'].append('SELinux is enabled')
+                elif item_list[-1] == 'disabled' and \
+                        lines['SELINUX'] != 'disabled':
+                    check_results['high'].append('SELinux is disabled but should be on')
+                else:
+                    check_results['high'].append('SELinux is disabled')
+
+            if 'Current mode' and 'Mode from config file' in checklive:
+                if checklive['Current mode'] and checklive['Mode from config file'] == lines['SELINUX']:
+                    check_results['ok'].append('Enforcement running as configured')
+                else:
+                    check_results['high'].append('Enforcement not running as configured')
+    
+            if 'Loaded policy name' in checklive:
+                if checklive['Loaded policy name'] == lines['SELINUXTYPE']:
+                    check_results['ok'].append('Policy type running as configured')
+                else:
+                    check_results['high'].append('Policy type not running as configured')
+
+            if 'Policy MLS status' in checklive:
+                if checklive['Policy MLS status'] == 'enabled':
+                    check_results['ok'].append('Policy MLS status enabled')
+                else:
+                    check_results['low'].append('Policy MLS status disabled')
+
+            if 'Policy deny_unknown status' in checklive:
+                if checklive['Policy deny_unknown status'] == 'denied':
+                    check_results['ok'].append('Policy deny_unkown status set to denied')
+                else:
+                    check_results['low'].append('Policy deny_unknown status set to allowed')
 
         return check_results

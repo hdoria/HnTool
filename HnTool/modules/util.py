@@ -82,7 +82,7 @@ def hntool_conf_parser_equals(pfile):
         fp = open(pfile,'r') # reading the file
         for line in fp:
             # getting all the lines that aren't comments
-            if not line.startswith('#'):
+            if not line.startswith('#') and not line == '\n':
                 line = line.split('=')
                 line[1] = line[1].rstrip()
                 if len(line) >= 2:

@@ -103,4 +103,3 @@ def requirements_met(pfile):
             return False
 
     return True
-

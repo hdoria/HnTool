@@ -4,10 +4,13 @@ from setuptools import setup
 from os.path import join
 from sys import prefix
 from HnTool import __version__
+from shutil import copyfile
 
 DATAFILES = [
       (join(prefix, 'share', 'man', 'man1'), [join('doc', 'hntool.1')]),
       ('share/doc/hntool-%s' % __version__, ['AUTHORS', 'LICENSE', 'NEWS', 'README', 'TODO'])]
+
+copyfile('hntool.py', 'hntool')
 
 setup(name='HnTool',
       version=str(__version__),

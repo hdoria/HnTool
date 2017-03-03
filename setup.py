@@ -18,5 +18,6 @@ setup(name='HnTool',
       author_email='hugodoria@gmail.com',
       url='http://code.google.com/p/hntool/',
       packages = ['HnTool', 'HnTool.output', 'HnTool.modules'],
-      scripts=['hntool'],
+      entry_points={'console_scripts': ['hntool=HnTool.core:main'] },
+      # scripts=['hntool'],
       data_files=DATAFILES)

@@ -1,40 +1,34 @@
-HnTool
-------
+# HnTool
 
-What is it?
-~~~~~~~~~~~
+## What is it?
 
-HnTool is an open source (GPLv2) hardening tool for Unix. It scans your system for
-vulnerabilities or problems in configuration files allowing you to get a quick
-overview of the security status of your system.
+HnTool is an open source (GPLv2) hardening tool for Unix. It scans your system for vulnerabilities or problems in configuration files allowing you to get a quick overview of the security status of your system.
 
 To use HnTool download it and run: ::
 
 	# ./hntool
 
-Supported systems
-~~~~~~~~~~~~~~~~~
+
+## Supported systems
 
 HnTool was already tested and is working on:
 
- * Arch Linux
- * CentOS
- * Debian
- * Fedora
- * Gentoo
- * Ubuntu
+* Arch Linux
+* CentOS
+* Debian
+* Fedora
+* Gentoo
+* Ubuntu
 
 If you are using HnTool on a system that is not listed above, please, let us know.
 
-How to install
-~~~~~~~~~~~~~~
+## How to install
 
 To install HnTool run the following command, as root: ::
 
 	# python setup.py install --prefix /usr/ --root /
 
-How to use
-~~~~~~~~~~
+## How to use
 
 Run HnTool with: ::
 
@@ -46,8 +40,7 @@ or see the usage help: ::
 	$ hntool -h
 
 
-Understanding the output
-~~~~~~~~~~~~~~~~~~~~~~~~
+## Understanding the output
 
 There are 5 types of results:
 
@@ -70,8 +63,7 @@ There are 5 types of results:
 	should fix it NOW or run and save your life.
 
 
-How can I help?
-~~~~~~~~~~~~~~~
+## How can I help?
 
 There are several ways that you can contribute and help HnTool's development.
 You can contribute with code, patchs, bugs and feature requests.
@@ -90,14 +82,13 @@ HnTool's source is available on:
 https://github.com/hdoria/HnTool
 
 
-How to create a module
-~~~~~~~~~~~~~~~~~~~~~~
+## How to create a module
 
 This section documents the innards of HnTool and specifies how to create
 a new module.
 
-The main HnTool program (hntool.py) runs a list of rules defined in __files__
-and __services__.
+The main HnTool program (hntool.py) runs a list of rules defined in `__files__`
+and `__services__`.
 
  * __files__ :
 	defines the rules which process simple files and configs.

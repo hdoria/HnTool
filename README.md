@@ -24,18 +24,17 @@ If you are using HnTool on a system that is not listed above, please, let us kno
 
 ## How to install
 
-To install HnTool run the following command, as root: ::
+To install HnTool run the following command, as root:
 
 	# python setup.py install --prefix /usr/ --root /
 
 ## How to use
 
-Run HnTool with: ::
+Run HnTool with:
 
 	# ./hntool
 
-You can also see the hntool(1) manual by typing 'man hntool' at the command line
-or see the usage help: ::
+You can also see the hntool(1) manual by typing 'man hntool' at the command line or see the usage help:
 
 	$ hntool -h
 
@@ -98,9 +97,9 @@ and `__services__`.
 	daemons.
 
 Once your module is finalized, remember to add it to the appropriate array
-(__files__ or __services__) defined in hntool/__init__.py
+`(__files__ or __services__)` defined in `hntool/__init__.py`
 
-A sample HnTool module is like this (hntool/ssh.py): ::
+A sample HnTool module is like this (hntool/ssh.py):
 
     import os
     import HnTool.modules.util

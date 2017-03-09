@@ -230,6 +230,10 @@ class HnToolCore:
             self.options
         )
 
+def main():
+    hn = HnToolCore()
+    hn.run_tests()
+
 if __name__ == "__main__":
     hn = HnToolCore()
     hn.run_tests()
